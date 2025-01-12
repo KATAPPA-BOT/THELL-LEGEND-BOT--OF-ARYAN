@@ -1,12 +1,40 @@
-/** dont change credits pleas**/
+const axios = require("axios");
+const fs = require("fs");
+const request = require("request");
+
+const link = [
+"https://i.imgur.com/MN8K2GR.mp4",
+"https://i.imgur.com/DQuH24h.mp4",
+"https://i.imgur.com/uDJWjmC.mp4",
+"https://i.imgur.com/IOsgIZy.mp4",
+"https://i.imgur.com/6ehgK8c.mp4",
+"https://i.imgur.com/cVsGX6O.mp4",
+"https://i.imgur.com/JB9MnxT.mp4",
+"https://i.imgur.com/wNB2aFG.mp4",
+"https://i.imgur.com/ntTXhE9.mp4",
+"https://i.imgur.com/VLjFWiO.mp4",
+"https://i.imgur.com/kdXp78d.mp4",
+"https://i.imgur.com/QFrMhcV.mp4",
+"https://i.imgur.com/uTk29FG.mp4",
+"https://i.imgur.com/x045aQA.mp4",
+"https://i.imgur.com/Cr2TVh9.mp4",
+"https://i.imgur.com/csFsNPz.mp4",
+"https://i.imgur.com/esVO0MO.mp4",
+"https://i.imgur.com/Tpp3U4f.mp4",
+"https://i.imgur.com/Ll76Qbw.mp4",
+"https://i.imgur.com/k7T2yVV.mp4",
+"https://i.imgur.com/sg1b8gS.mp4",
+"https://i.imgur.com/vK71G6H.mp4",
+];
+
 module.exports.config = {
-  name: "Hotvideos",
+  name: "hotvideo",
   version: "1.0.0",
   hasPermssion: 0,
-  credits: "ARYAN",
-  description: "HOT VEDIO",
-  commandCategory: "system",
-  usages: "Hotvideos",
+  credits: "ARIF BABU",
+  description: "auto reply to sadvideo",
+  commandCategory: "noprefix",
+  usages: "HOTVIDOS",
   cooldowns: 5,
   dependencies: {
     "request":"",
@@ -15,39 +43,50 @@ module.exports.config = {
   }
 };
 
-module.exports.run = async({api,event,args,client,Users,Threads,__GLOBAL,Currencies}) => {
-const axios = global.nodemodule["axios"];
-const request = global.nodemodule["request"];
-const fs = global.nodemodule["fs-extra"];
-   var hi = ["『٭』 💐𝐀𝐑𝐘𝐀𝐍💐 『٭』-HOT-VIDOS"];
-  var know = hi[Math.floor(Math.random() * hi.length)];
-  var link = [
-   "https://drive.google.com/uc?id=1a7XsNXizFTTlSD_gRQwK4bDA3HPam56W",
-    "https://drive.google.com/uc?id=1aF6H24ILE6wIFGW3M3BGXg8l63ktP8B3",
-    "https://drive.google.com/uc?id=1_ysGMbGZQexheta6tuSBhJQDeAMioXr_",
-    "https://drive.google.com/uc?id=1bTwYfovA2YKCs_kskWyp2GHh7K9XHQN0",
-    "https://drive.google.com/uc?id=1bPdkmq6lKm8BGwxkWaADHe0kutTtEujR",
-    "https://drive.google.com/uc?id=1b_evUu8zmfiPs-CeaZp1DkkArB5zl5x-",
-    "https://drive.google.com/uc?id=1brkBa03NdRCx6lfrjopbWJUCoJupCRYg",
-    "https://drive.google.com/uc?id=1c6SCqToTZamfuiiz5LrckOxDYT9gnJGu",
-    "https://drive.google.com/uc?id=1bv8GL0XDReocf1NfZBMCNoMAsBBwDE1i",
-    "https://drive.google.com/uc?id=1c01XFZFNYRi_harhEbPvf-i25QIo9c0V",
-    "https://drive.google.com/uc?id=1bs5sI8NDRVK_omefR59how1UjZ6TEu91",
-    "https://drive.google.com/uc?id=1bcIoyM9T_wQlaXxar4nVjCXsKHavRmnb",
-    "https://drive.google.com/uc?id=1boVaYpbxIH3RItPY6k0Ld2F98YasHVq9",
-    "https://drive.google.com/uc?id=1c5YXcgK3kOx6bTfVjxNGGMdDYbGmVInC",
-    "https://drive.google.com/uc?id=1c1OHfuq-YBOO-UwO5uybPqO7gOqTwInp",
-    "https://drive.google.com/uc?id=1jsoQ4wuRdN6EP6jOE3C0L6trLZmoPI0L",
-    "https://drive.google.com/uc?id=1jr4YzPNCTOj_lfdOSnauXfTPJkbuqS3f",
-    "https://drive.google.com/uc?id=1tlon-avneE7lQF2rS13GOeiuLWIUEA7J",
-    "https://drive.google.com/uc?id=1tqaCw0vfG2zJDijgsFF2UTlOB-EmI4SZ",
-    "https://drive.google.com/uc?id=1ta1ujBjmcvxSuYVwQ3oEXIJsnPCW2VZO",
-    "https://drive.google.com/uc?id=1svD1h3vEYbwxMeU5v4c2wQPBaU90fcEx",
-    "https://drive.google.com/uc?id=1seUwXvoVFyCzOA5SykF9uxhlwuwLzPn0",
-    "https://drive.google.com/uc?id=1t2oFQmOtw-6V_ahWzYo08v1g2oGnkhPL",
+module.exports.handleEvent = function({ api, event, client, __GLOBAL }) {
+  var { threadID, messageID } = event;
+  if (event.body.indexOf("hotvideo")==0 || 
+      event.body.indexOf("Hotvideo")==0 ||
+      event.body.indexOf("hot video")==0 ||
+      event.body.indexOf("Hot video")==0 || 
+      event.body.indexOf("HOTVIDEO")==0 || 
+      event.body.indexOf("HOT VIDEO")==0) {
+    const rahad = [
+      ""
 
+    ];
+    const rahad2 = rahad[Math.floor(Math.random() * rahad.length)];
 
-];
-     var callback = () => api.sendMessage({body:`「 ${know} 」`,attachment: fs.createReadStream(__dirname + "/cache/15.mp4")}, event.threadID, () => fs.unlinkSync(__dirname + "/cache/15.mp4"));    
-      return request(encodeURI(link[Math.floor(Math.random() * link.length)])).pipe(fs.createWriteStream(__dirname+"/cache/15.mp4")).on("close",() => callback());
-   };
+    const callback = () => api.sendMessage({
+      body: `${rahad2}`,
+      attachment: fs.createReadStream(__dirname + "/cache/2024.mp4")
+    }, event.threadID, () => fs.unlinkSync(__dirname + "/cache/2024.mp4"), event.messageID);
+
+    const requestStream = request(encodeURI(link[Math.floor(Math.random() * link.length)]));
+    requestStream.pipe(fs.createWriteStream(__dirname + "/cache/2024.mp4")).on("close", () => callback());
+    return requestStream;
+  }
+};
+
+module.exports.languages = {
+  "vi": {
+    "on": "Dùng sai cách rồi lêu lêu",
+    "off": "sv ngu, đã bão dùng sai cách",
+    "successText": `🧠`,
+  },
+  "en": {
+    "on": "on",
+    "off": "off",
+    "successText": "success!",
+  }
+};
+
+module.exports.run = async ({ api, event, Threads, getText }) => {
+  const { threadID, messageID } = event;
+  let data = (await Threads.getData(threadID)).data;
+  if (typeof data["hotvidos"] === "undefined" || data["hotvidos"]) data["hotvidos"] = false;
+  else data["hotvidos"] = true;
+  await Threads.setData(threadID, { data });
+  global.data.threadData.set(threadID, data);
+  api.sendMessage(`${(data["hotvidos"]) ? getText("off") : getText("on")} ${getText("successText")}`, threadID, messageID);
+};
